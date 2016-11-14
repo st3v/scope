@@ -366,7 +366,8 @@ export function doControl(nodeId, control) {
   return (dispatch) => {
     dispatch({
       type: ActionTypes.DO_CONTROL,
-      nodeId
+      nodeId,
+      control
     });
     doControlRequest(nodeId, control, dispatch);
   };

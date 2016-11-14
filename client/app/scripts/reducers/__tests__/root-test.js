@@ -192,6 +192,19 @@ describe('RootReducer', () => {
     state: {}
   };
 
+  const ControlAction = {
+    type: ActionTypes.DO_CONTROL,
+    nodeId: 'n1',
+    control: {
+      human: 'Restart'
+    }
+  };
+
+  const ControlSuccessAction = {
+    type: ActionTypes.DO_CONTROL_SUCCESS,
+    nodeId: 'n1'
+  };
+
   // Basic tests
 
   it('returns initial state', () => {
@@ -499,5 +512,13 @@ describe('RootReducer', () => {
     let nextState = initialState.set('currentTopology', fromJS(topologies[0]));
     nextState = reducer(nextState, {type: ActionTypes.SET_RECEIVED_NODES_DELTA});
     expect(nextState.get('gridMode')).toBe(true);
+  });
+  it('has a "connection-lost" message', () => {
+    let nextState = initialState;
+    nextState = reducer(nextState, ClickNodeAction);
+    nextState = reducer(nextState, ControlAction);
+    expect(nextState.getIn(['controlStatus', 'n1', 'control'])).toEqual('Restart');
+    nextState = reducer(nextState, ControlSuccessAction);
+    expect(nextState.getIn(['controlStatus', 'n1', 'pending'])).toBe(false);
   });
 });

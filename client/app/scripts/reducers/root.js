@@ -360,7 +360,8 @@ export function rootReducer(state = initialState, action) {
     case ActionTypes.DO_CONTROL: {
       return state.setIn(['controlStatus', action.nodeId], makeMap({
         pending: true,
-        error: null
+        error: null,
+        control: action.control.human
       }));
     }
 
@@ -441,10 +442,7 @@ export function rootReducer(state = initialState, action) {
       }));
     }
     case ActionTypes.DO_CONTROL_SUCCESS: {
-      return state.setIn(['controlStatus', action.nodeId], makeMap({
-        pending: false,
-        error: null
-      }));
+      return state.setIn(['controlStatus', action.nodeId, 'pending'], false);
     }
 
     case ActionTypes.FOCUS_SEARCH: {

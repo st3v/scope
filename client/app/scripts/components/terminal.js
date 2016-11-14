@@ -323,9 +323,12 @@ class Terminal extends React.Component {
 
   getStatus() {
     if (this.props.pipe.get('status') === 'PIPE_DELETED') {
+      const text = this.props.controlStatus
+        ? `Connection closed by '${this.props.controlStatus}' control`
+        : 'Connection closed';
       return (
         <div>
-          <h3>Connection Closed</h3>
+          <h3>{text}</h3>
           <div className="termina-status-bar-message">
             The connection to this container has been closed.
             <div className="link" onClick={this.handleCloseClick}>Close terminal</div>
@@ -384,10 +387,16 @@ class Terminal extends React.Component {
   }
 }
 
+function mapStateToProps(state, ownProps) {
+  // console.log(ownProps.pipe.get('nodeId'));
+  // console.log(state.getIn(['controlStatus', ownProps.pipe.get('nodeId')]).toJS());
+  return {
+    controlStatus: state.getIn(['controlStatus', ownProps.pipe.get('nodeId'), 'control'])
+  };
+}
 
 Terminal.defaultProps = {
   connect: true
 };
 
-
-export default connect()(Terminal);
+export default connect(mapStateToProps)(Terminal);
