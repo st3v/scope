@@ -316,6 +316,7 @@ class Terminal extends React.Component {
           <span title="Close" className="terminal-header-tools-item-icon fa fa-close"
             onClick={this.handleCloseClick} />
         </div>
+        {this.getControlStatusIcon()}
         <span className="terminal-header-title">{this.getTitle()}</span>
       </div>
     );
@@ -323,12 +324,9 @@ class Terminal extends React.Component {
 
   getStatus() {
     if (this.props.pipe.get('status') === 'PIPE_DELETED') {
-      const text = this.props.controlStatus
-        ? `Connection closed by '${this.props.controlStatus}' control`
-        : 'Connection closed';
       return (
         <div>
-          <h3>{text}</h3>
+          <h3>Connection Closed</h3>
           <div className="termina-status-bar-message">
             The connection to this container has been closed.
             <div className="link" onClick={this.handleCloseClick}>Close terminal</div>
@@ -385,11 +383,21 @@ class Terminal extends React.Component {
       </div>
     );
   }
+  getControlStatusIcon() {
+    const lookup = {
+      Attach: 'desktop',
+      'Exec shell': 'terminal',
+      Restart: 'repeat',
+      Pause: 'pause',
+      Stop: 'stop'
+    };
+    return (
+      <span style={{marginRight: '8px'}} className={`fa fa-${lookup[this.props.controlStatus]}`} />
+    );
+  }
 }
 
 function mapStateToProps(state, ownProps) {
-  // console.log(ownProps.pipe.get('nodeId'));
-  // console.log(state.getIn(['controlStatus', ownProps.pipe.get('nodeId')]).toJS());
   return {
     controlStatus: state.getIn(['controlStatus', ownProps.pipe.get('nodeId'), 'control'])
   };
