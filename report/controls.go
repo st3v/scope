@@ -1,6 +1,7 @@
 package report
 
 import (
+	"encoding/json"
 	"time"
 
 	"github.com/ugorji/go/codec"
@@ -114,8 +115,8 @@ func (nc *NodeControls) CodecDecodeSelf(decoder *codec.Decoder) {
 }
 
 // MarshalJSON shouldn't be used, use CodecEncodeSelf instead
-func (NodeControls) MarshalJSON() ([]byte, error) {
-	panic("MarshalJSON shouldn't be used, use CodecEncodeSelf instead")
+func (n *NodeControls) MarshalJSON() ([]byte, error) {
+	return json.Marshal(n.Controls)
 }
 
 // UnmarshalJSON shouldn't be used, use CodecDecodeSelf instead

@@ -1,6 +1,7 @@
 package report
 
 import (
+	"encoding/json"
 	"math"
 	"time"
 
@@ -279,8 +280,8 @@ func (m *Metric) CodecDecodeSelf(decoder *codec.Decoder) {
 }
 
 // MarshalJSON shouldn't be used, use CodecEncodeSelf instead
-func (Metric) MarshalJSON() ([]byte, error) {
-	panic("MarshalJSON shouldn't be used, use CodecEncodeSelf instead")
+func (m *Metric) MarshalJSON() ([]byte, error) {
+	return json.Marshal(m.ToIntermediate())
 }
 
 // UnmarshalJSON shouldn't be used, use CodecDecodeSelf instead

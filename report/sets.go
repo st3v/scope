@@ -3,6 +3,7 @@ package report
 import (
 	"bytes"
 	"encoding/gob"
+	"encoding/json"
 	"fmt"
 	"reflect"
 	"sort"
@@ -185,8 +186,8 @@ func (s *Sets) CodecDecodeSelf(decoder *codec.Decoder) {
 }
 
 // MarshalJSON shouldn't be used, use CodecEncodeSelf instead
-func (Sets) MarshalJSON() ([]byte, error) {
-	panic("MarshalJSON shouldn't be used, use CodecEncodeSelf instead")
+func (s *Sets) MarshalJSON() ([]byte, error) {
+	return json.Marshal(s.toIntermediate())
 }
 
 // UnmarshalJSON shouldn't be used, use CodecDecodeSelf instead

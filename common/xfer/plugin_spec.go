@@ -3,6 +3,7 @@ package xfer
 import (
 	"bytes"
 	"encoding/gob"
+	"encoding/json"
 	"fmt"
 	"sort"
 
@@ -182,7 +183,7 @@ func (n PluginSpecs) fromIntermediate(specs []PluginSpec) PluginSpecs {
 }
 
 // CodecEncodeSelf implements codec.Selfer
-func (n *PluginSpecs) CodecEncodeSelf(encoder *codec.Encoder) {
+func (n PluginSpecs) CodecEncodeSelf(encoder *codec.Encoder) {
 	if n.psMap != nil {
 		encoder.Encode(n.toIntermediate())
 	} else {
@@ -200,12 +201,12 @@ func (n *PluginSpecs) CodecDecodeSelf(decoder *codec.Decoder) {
 }
 
 // MarshalJSON shouldn't be used, use CodecEncodeSelf instead
-func (PluginSpecs) MarshalJSON() ([]byte, error) {
-	panic("MarshalJSON shouldn't be used, use CodecEncodeSelf instead")
+func (n *PluginSpecs) MarshalJSON() ([]byte, error) {
+	return json.Marshal(n.toIntermediate())
 }
 
 // UnmarshalJSON shouldn't be used, use CodecDecodeSelf instead
-func (*PluginSpecs) UnmarshalJSON(b []byte) error {
+func (PluginSpecs) UnmarshalJSON(b []byte) error {
 	panic("UnmarshalJSON shouldn't be used, use CodecDecodeSelf instead")
 }
 

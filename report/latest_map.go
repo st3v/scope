@@ -2,6 +2,7 @@ package report
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"sort"
 	"time"
@@ -242,8 +243,8 @@ func (m *LatestMap) CodecDecodeSelf(decoder *codec.Decoder) {
 }
 
 // MarshalJSON shouldn't be used, use CodecEncodeSelf instead.
-func (LatestMap) MarshalJSON() ([]byte, error) {
-	panic("MarshalJSON shouldn't be used, use CodecEncodeSelf instead")
+func (l *LatestMap) MarshalJSON() ([]byte, error) {
+	return json.Marshal(l.toIntermediate())
 }
 
 // UnmarshalJSON shouldn't be used, use CodecDecodeSelf instead.

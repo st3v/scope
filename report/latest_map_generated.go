@@ -114,8 +114,9 @@ func (m *StringLatestMap) CodecDecodeSelf(decoder *codec.Decoder) {
 }
 
 // MarshalJSON shouldn't be used, use CodecEncodeSelf instead.
-func (StringLatestMap) MarshalJSON() ([]byte, error) {
-	panic("MarshalJSON shouldn't be used, use CodecEncodeSelf instead")
+func (s StringLatestMap) MarshalJSON() ([]byte, error) {
+	l := LatestMap(s)
+	return l.MarshalJSON()
 }
 
 // UnmarshalJSON shouldn't be used, use CodecDecodeSelf instead.
@@ -228,8 +229,8 @@ func (m *NodeControlDataLatestMap) CodecDecodeSelf(decoder *codec.Decoder) {
 }
 
 // MarshalJSON shouldn't be used, use CodecEncodeSelf instead.
-func (NodeControlDataLatestMap) MarshalJSON() ([]byte, error) {
-	panic("MarshalJSON shouldn't be used, use CodecEncodeSelf instead")
+func (n *NodeControlDataLatestMap) MarshalJSON() ([]byte, error) {
+	return (*LatestMap)(n).MarshalJSON()
 }
 
 // UnmarshalJSON shouldn't be used, use CodecDecodeSelf instead.

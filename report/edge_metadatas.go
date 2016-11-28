@@ -3,6 +3,7 @@ package report
 import (
 	"bytes"
 	"encoding/gob"
+	"encoding/json"
 	"fmt"
 	"reflect"
 	"sort"
@@ -185,8 +186,8 @@ func (c *EdgeMetadatas) CodecDecodeSelf(decoder *codec.Decoder) {
 }
 
 // MarshalJSON shouldn't be used, use CodecEncodeSelf instead
-func (EdgeMetadatas) MarshalJSON() ([]byte, error) {
-	panic("MarshalJSON shouldn't be used, use CodecEncodeSelf instead")
+func (e *EdgeMetadatas) MarshalJSON() ([]byte, error) {
+	return json.Marshal(e.toIntermediate())
 }
 
 // UnmarshalJSON shouldn't be used, use CodecDecodeSelf instead
